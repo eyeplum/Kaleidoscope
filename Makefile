@@ -1,6 +1,6 @@
 CC = g++
 MAIN = kscope
-SRCS = lexer.cpp
+SRCS = src/lexer.cpp
 FLAGS = -Wall
 
 $(MAIN):
