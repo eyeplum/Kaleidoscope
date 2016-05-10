@@ -1,7 +1,7 @@
+#include "lexer.h"
 #include <string>
 #include <cctype>
 #include <cstdlib>
-#include "lexer.h"
 
 
 static std::string IdentifierStr;

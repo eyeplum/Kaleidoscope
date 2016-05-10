@@ -4,8 +4,6 @@
 #include <utility>
 #include "parser.h"
 
-using namespace std;
-
 
 // AST definitions
 
@@ -24,50 +22,50 @@ public:
 
 
 class VariableExprAST : public ExprAST {
-  string name;
+  std::string name;
 
 public:
-  VariableExprAST(const string &name) : name(name) {}
+  VariableExprAST(const std::string &name) : name(name) {}
 };
 
 
 class BinaryExprAST : public ExprAST {
   char operand;
-  unique_ptr<ExprAST> lhs, rhs;
+  std::unique_ptr<ExprAST> lhs, rhs;
   
 public:
-  BinaryExprAST(char operand, unique_ptr<ExprAST> lhs, unique_ptr<ExprAST> rhs)
-    : operand(operand), lhs(move(lhs)), rhs(move(rhs)) {}
+  BinaryExprAST(char operand, std::unique_ptr<ExprAST> lhs, std::unique_ptr<ExprAST> rhs)
+    : operand(operand), lhs(std::move(lhs)), rhs(std::move(rhs)) {}
 };
 
 
 class CallExprAST : public ExprAST {
-  string callee;
-  vector<unique_ptr<ExprAST> > args;
+  std::string callee;
+  std::vector<std::unique_ptr<ExprAST> > args;
 
 public:
-  CallExprAST(const string &callee, vector<unique_ptr<ExprAST> > args)
-    : callee(callee), args(move(args)) {}
+  CallExprAST(const std::string &callee, std::vector<std::unique_ptr<ExprAST> > args)
+    : callee(callee), args(std::move(args)) {}
 };
 
 
 class PrototypeAST : public ExprAST {
-  string name;
-  vector<string> argnames;
+  std::string name;
+  std::vector<std::string> argnames;
 
 public:
-  PrototypeAST(const string &name, vector<string> argnames)
-    : name(name), argnames(move(argnames)) {}
+  PrototypeAST(const std::string &name, std::vector<std::string> argnames)
+    : name(name), argnames(std::move(argnames)) {}
 };
 
 
 class FunctionAST : public ExprAST {
-  unique_ptr<PrototypeAST> prototype;
-  unique_ptr<ExprAST> body;
+  std::unique_ptr<PrototypeAST> prototype;
+  std::unique_ptr<ExprAST> body;
 
 public:
-  FunctionAST(unique_ptr<PrototypeAST> prototype, unique_ptr<ExprAST> body)
-    : prototype(move(prototype)), body(move(body)) {}
+  FunctionAST(std::unique_ptr<PrototypeAST> prototype, std::unique_ptr<ExprAST> body)
+    : prototype(std::move(prototype)), body(std::move(body)) {}
 };
 
 

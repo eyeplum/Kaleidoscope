@@ -1,3 +1,6 @@
+#ifndef LEXER_H
+#define LEXER_H
+
 enum Token {
   tok_eof = -1,
 
@@ -10,4 +13,6 @@ enum Token {
 };
 
 int gettok();
+
+#endif
 
