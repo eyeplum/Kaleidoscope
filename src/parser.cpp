@@ -1,4 +1,5 @@
 #include "parser.h"
+#include <cstdio>
 #include <string>
 #include <memory>
 #include <vector>
@@ -77,6 +78,17 @@ static int getNextToken() {
   return currentToken = gettok();
 }
 
+std::unique_ptr<ExprAST> LogError(const char *errorMessage) {
+  fprintf(stderr, "Error: %s\n", errorMessage);
+  return nullptr;
+}
+
 
 // Parser
+
+static std::unique_ptr<ExprAST> parseNumberExpr() {
+  auto result = llvm::make_unique<NumberExprAST>(NumVal);
+  getNextToken();
+  return std::move(result);
+}
 
