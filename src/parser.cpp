@@ -1,6 +1,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <utility>
 
 using namespace std;
 
@@ -24,7 +25,7 @@ class VariableExprAST : public ExprAST {
 
 public:
   VariableExprAST(const string &name) : name(name) {}
-}
+};
 
 
 class BinaryExprAST : public ExprAST {
@@ -34,7 +35,7 @@ class BinaryExprAST : public ExprAST {
 public:
   BinaryExprAST(char operand, unique_ptr<ExprAST> lhs, unique_ptr<ExprAST> rhs)
     : operand(operand), lhs(move(lhs)), rhs(move(rhs)) {}
-}
+};
 
 
 class CallExprAST : public ExprAST {
@@ -44,5 +45,5 @@ class CallExprAST : public ExprAST {
 public:
   CallExprAST(const string &callee, vector<unique_ptr<ExprAST> > args)
     : callee(callee), args(move(args)) {}
-}
+};
 
