@@ -1,0 +1,5 @@
+-x
+c++
+-I/usr/local/include/
+-Wall
+-std=c++11

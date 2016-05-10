@@ -92,3 +92,25 @@ static std::unique_ptr<ExprAST> parseNumberExpr() {
   return std::move(result);
 }
 
+static std::unique_ptr<ExprAST> parseExpression() {
+  return nullptr;
+}
+
+static std::unique_ptr<ExprAST> parseParenthesis() {
+  getNextToken();
+
+  auto expression = parseExpression();
+  
+  if (!expression) {
+    return nullptr;
+  }
+
+  if (currentToken != ')') {
+    return LogError("Expected ')'");
+  }
+
+  getNextToken();
+
+  return expression;
+}
+
