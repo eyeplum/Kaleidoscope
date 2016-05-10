@@ -2,9 +2,12 @@
 #include <memory>
 #include <vector>
 #include <utility>
+#include "parser.h"
 
 using namespace std;
 
+
+// AST definitions
 
 class ExprAST {
 public:
@@ -46,4 +49,35 @@ public:
   CallExprAST(const string &callee, vector<unique_ptr<ExprAST> > args)
     : callee(callee), args(move(args)) {}
 };
+
+
+class PrototypeAST : public ExprAST {
+  string name;
+  vector<string> argnames;
+
+public:
+  PrototypeAST(const string &name, vector<string> argnames)
+    : name(name), argnames(move(argnames)) {}
+};
+
+
+class FunctionAST : public ExprAST {
+  unique_ptr<PrototypeAST> prototype;
+  unique_ptr<ExprAST> body;
+
+public:
+  FunctionAST(unique_ptr<PrototypeAST> prototype, unique_ptr<ExprAST> body)
+    : prototype(move(prototype)), body(move(body)) {}
+};
+
+
+// Helper functions
+
+static int currentToken;
+static int getNextToken() {
+  return currentToken = gettok();
+}
+
+
+// Parser
 

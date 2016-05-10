@@ -1,6 +1,6 @@
 CC = clang++
 MAIN = kscope
-SRCS = src/*
+SRCS = src/*.cpp
 FLAGS = -Wall -g -std=c++11 -stdlib=libc++
 
 $(MAIN):

@@ -1,16 +1,8 @@
 #include <string>
 #include <cctype>
 #include <cstdlib>
+#include "lexer.h"
 
-enum Token {
-  tok_eof = -1,
-
-  tok_def = -2,
-  tok_extern = -3,
-
-  tok_identifier = -4,
-  tok_number = -5,
-};
 
 static std::string IdentifierStr;
 static double NumVal;
@@ -21,7 +13,7 @@ static bool isnumcomp(char character) {
 }
 
 // Get token from stdin
-static int gettok() {
+int gettok() {
   static char LastChar = ' ';
   
   // Skip whitespaces
