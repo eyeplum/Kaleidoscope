@@ -1,8 +1,9 @@
+#include "parser.h"
 #include <string>
 #include <memory>
 #include <vector>
 #include <utility>
-#include "parser.h"
+#include <llvm/ADT/STLExtras.h>
 
 
 // AST definitions

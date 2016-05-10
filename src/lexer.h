@@ -1,6 +1,8 @@
 #ifndef LEXER_H
 #define LEXER_H
 
+#include <string>
+
 enum Token {
   tok_eof = -1,
 
@@ -11,6 +13,9 @@ enum Token {
   
   tok_number = -5,
 };
+
+std::string IdentifierStr;
+double NumVal;
 
 int gettok();
 

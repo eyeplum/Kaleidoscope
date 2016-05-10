@@ -1,11 +1,7 @@
 #include "lexer.h"
-#include <string>
 #include <cctype>
 #include <cstdlib>
 
-
-static std::string IdentifierStr;
-static double NumVal;
 
 // Is number component
 static bool isnumcomp(char character) {
