@@ -3,6 +3,9 @@
 #include <cstdlib>
 
 
+std::string IdentifierStr;
+double NumVal;
+
 // Is number component
 static bool isnumcomp(char character) {
   return isdigit(character) || character == '.';
