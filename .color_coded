@@ -1,5 +1,7 @@
 -x
 c++
--I/usr/local/include/
+-I/usr/local/include
 -Wall
 -std=c++11
+-isysroot
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk
