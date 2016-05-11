@@ -9,19 +9,19 @@ int main(int argc, char *argv[]) {
         printf("EOF\n");
         return 0;
       case tok_def:
-        printf("keyword: define\n");
+        printf("  - keyword   : define\n");
         break;
       case tok_extern:
-        printf("keyword: extern\n");
+        printf("  - keyword   : extern\n");
         break;
       case tok_identifier:
-        printf("identifier: %s\n", IdentifierStr.c_str());
+        printf("  - identifier: %s\n", IdentifierStr.c_str());
         break;
       case tok_number:
-        printf("number: %lf\n", NumVal);
+        printf("  - number    : %lf\n", NumVal);
         break;
       default:
-        printf("unknown: %c\n", type);
+        printf("  - unknown   : %c\n", type);
         break;
     }
   }
