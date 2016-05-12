@@ -114,3 +114,40 @@ static std::unique_ptr<ExprAST> parseParenthesis() {
   return expression;
 }
 
+static std::unique_ptr<ExprAST> parseIdentifierExpr() {
+  std::string identifier = IdentifierStr;
+
+  getNextToken();
+
+  // If not followed by '('
+  // return the AST as a variable expression
+  if (currentToken != '(') {
+    return llvm::make_unique<VariableExprAST>(identifier);
+  }
+
+  getNextToken();
+  std::vector<std::unique_ptr<ExprAST> > args;
+  if (currentToken != ')') {
+    while (true) {
+      if (auto expression = parseExpression()) {
+        args.push_back(expression);
+      } else {
+        return nullptr;
+      }
+
+      if (currentToken == ')') {
+        break;
+      } 
+
+      if (currentToken != ',') {
+        return LogError("Expect ')' or ',' in argument list");
+      }
+
+      getNextToken();
+    }
+  }
+  getNextToken();
+
+  return llvm::make_unique<CallExprAST>(identifier, std::move(args));
+}
+
