@@ -12,9 +12,9 @@ set(SOURCE_FILES
 )
 add_executable(kscope ${SOURCE_FILES})
 
-set(TEST_SOURCE_FILES 
+set(LEXER_TEST_SOURCE_FILES 
   tests/test_lexer.cpp
 )
-set(TEST_FILES ${SOURCE_FILES} ${TEST_SOURCE_FILES})
-add_executable(tests ${TEST_FILES})
+set(LEXER_TEST_FILES ${SOURCE_FILES} ${LEXER_TEST_SOURCE_FILES})
+add_executable(test_lexer ${LEXER_TEST_FILES})
 
