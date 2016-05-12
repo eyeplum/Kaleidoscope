@@ -96,7 +96,7 @@ static std::unique_ptr<ExprAST> parseExpression() {
   return nullptr;
 }
 
-static std::unique_ptr<ExprAST> parseParenthesis() {
+static std::unique_ptr<ExprAST> parseParenthesisExpr() {
   getNextToken();
 
   auto expression = parseExpression();
@@ -149,5 +149,18 @@ static std::unique_ptr<ExprAST> parseIdentifierExpr() {
   getNextToken();
 
   return llvm::make_unique<CallExprAST>(identifier, std::move(args));
+}
+
+static std::unique_ptr<ExprAST> parsePrimaryExpr() {
+  switch (currentToken) {
+    case tok_number:
+      return parseNumberExpr();
+    case tok_identifier:
+      return parseIdentifierExpr();
+    case '(':
+      return parseParenthesisExpr();
+    default:
+      return LogError("unknown token when expecting an expression");
+  }
 }
 
