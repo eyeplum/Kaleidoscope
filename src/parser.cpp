@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <utility>
+#include <map>
 #include <llvm/ADT/STLExtras.h>
 
 
@@ -130,7 +131,7 @@ static std::unique_ptr<ExprAST> parseIdentifierExpr() {
   if (currentToken != ')') {
     while (true) {
       if (auto expression = parseExpression()) {
-        args.push_back(expression);
+        args.push_back(std::move(expression));
       } else {
         return nullptr;
       }
@@ -162,5 +163,33 @@ static std::unique_ptr<ExprAST> parsePrimaryExpr() {
     default:
       return LogError("unknown token when expecting an expression");
   }
+}
+
+// main func and status
+
+static std::map<char, int> BinaryOperationPrecedence;
+
+static int getTokenPrecedence() {
+  if (!isascii(currentToken)) {
+    return -1;
+  }
+
+  int result = BinaryOperationPrecedence[currentToken];
+  if (result < 0) {
+    return -1;
+  }
+  return result;
+}
+
+int main(int argc, char *argv[]) {
+  // Insert operation precedence
+  BinaryOperationPrecedence['<'] = 10;
+  BinaryOperationPrecedence['+'] = 20;
+  BinaryOperationPrecedence['-'] = 20;
+  BinaryOperationPrecedence['*'] = 30;
+
+  // ...
+  
+  return 0;
 }
 
