@@ -87,14 +87,25 @@ std::unique_ptr<ExprAST> LogError(const char *errorMessage) {
 
 // Parser
 
+static std::unique_ptr<ExprAST> parsePrimaryExpr();
+
 static std::unique_ptr<ExprAST> parseNumberExpr() {
   auto result = llvm::make_unique<NumberExprAST>(NumVal);
   getNextToken();
   return std::move(result);
 }
 
+static std::unique_ptr<ExprAST> parseBinaryOperationRhs(int expressionPrecedence, std::unique_ptr<ExprAST> rhs) {
+  return nullptr; 
+}
+
 static std::unique_ptr<ExprAST> parseExpression() {
-  return nullptr;
+  auto lhs = parsePrimaryExpr();
+  if (!lhs) {
+    return nullptr;
+  }
+
+  return parseBinaryOperationRhs(0, std::move(lhs));
 }
 
 static std::unique_ptr<ExprAST> parseParenthesisExpr() {
@@ -164,6 +175,7 @@ static std::unique_ptr<ExprAST> parsePrimaryExpr() {
       return LogError("unknown token when expecting an expression");
   }
 }
+
 
 // main func and status
 
