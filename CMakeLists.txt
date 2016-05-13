@@ -5,7 +5,6 @@ project(kscope)
 include_directories( /usr/local/include/ )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++ -Wall -g")
 
-### The main target is not yet ready ###
 set(SOURCE_FILES 
   src/lexer.cpp
   src/parser.cpp
