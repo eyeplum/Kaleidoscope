@@ -308,7 +308,7 @@ static void mainLoop() {
     fprintf(stderr, "ready > ");
     switch (currentToken) {
       case tok_eof:
-        fprintf(stderr, "Goodbye.\n");
+        fprintf(stderr, "\nGoodbye.\n");
         return;
       case ';':
         getNextToken();
