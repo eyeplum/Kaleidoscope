@@ -84,6 +84,11 @@ std::unique_ptr<ExprAST> LogError(const char *errorMessage) {
   return nullptr;
 }
 
+std::unique_ptr<PrototypeAST> LogErrorP(const char * errorMessage) {
+  LogError(errorMessage);
+  return nullptr;
+}
+
 
 // Parser
 
@@ -198,6 +203,32 @@ static std::unique_ptr<ExprAST> parsePrimaryExpr() {
     default:
       return LogError("unknown token when expecting an expression");
   }
+}
+
+static std::unique_ptr<PrototypeAST> parsePrototype() {
+  if (currentToken != tok_identifier) {
+    return LogErrorP("Expect function name in prototype");
+  }
+
+  std::string functionName = IdentifierStr;
+  getNextToken();
+
+  if (currentToken != '(') {
+    return LogErrorP("Expect '(' in prototype");
+  }
+
+  std::vector<std::string> argNames;
+  while (getNextToken() == tok_identifier) {
+    argNames.push_back(IdentifierStr);
+  }
+
+  if (currentToken != ')') {
+    return LogErrorP("Expect ')' in prototype");
+  }
+
+  getNextToken();
+
+  return llvm::make_unique<PrototypeAST>(functionName, std::move(argNames));
 }
 
 
