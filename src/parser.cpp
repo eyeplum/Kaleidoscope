@@ -231,6 +231,34 @@ static std::unique_ptr<PrototypeAST> parsePrototype() {
   return llvm::make_unique<PrototypeAST>(functionName, std::move(argNames));
 }
 
+static std::unique_ptr<FunctionAST> parseDefinition() {
+  getNextToken();
+  auto prototype = parsePrototype();
+  if (!prototype) {
+    return nullptr;
+  }
+
+  if (auto expression = parseExpression()) {
+    return llvm::make_unique<FunctionAST>(std::move(prototype), std::move(expression));
+  }
+
+  return nullptr;
+}
+
+static std::unique_ptr<PrototypeAST> parseExtern() {
+  getNextToken();
+  return parsePrototype();
+}
+
+static std::unique_ptr<FunctionAST> parseTopLevelExpression() {
+  if (auto expression = parseExpression()) {
+    auto anonymousPrototype = llvm::make_unique<PrototypeAST>("", std::vector<std::string>());
+    return llvm::make_unique<FunctionAST>(std::move(anonymousPrototype), std::move(expression));
+  }
+
+  return nullptr;
+}
+
 
 // main func and status
 
