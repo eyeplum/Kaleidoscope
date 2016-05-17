@@ -88,6 +88,7 @@ std::unique_ptr<ExprAST> LogError(const char *errorMessage) {
 // Parser
 
 static std::unique_ptr<ExprAST> parsePrimaryExpr();
+static int getTokenPrecedence();
 
 static std::unique_ptr<ExprAST> parseNumberExpr() {
   auto result = llvm::make_unique<NumberExprAST>(NumVal);
@@ -95,8 +96,31 @@ static std::unique_ptr<ExprAST> parseNumberExpr() {
   return std::move(result);
 }
 
-static std::unique_ptr<ExprAST> parseBinaryOperationRhs(int expressionPrecedence, std::unique_ptr<ExprAST> rhs) {
-  return nullptr; 
+static std::unique_ptr<ExprAST> parseBinaryOperationRhs(int expressionPrecedence, std::unique_ptr<ExprAST> lhs) {
+  while (true) {
+    int tokenPrecedence = getTokenPrecedence();
+    if (tokenPrecedence < expressionPrecedence) {
+      return lhs;
+    }
+
+    int binaryOperation = currentToken;
+    getNextToken();
+
+    auto rhs = parsePrimaryExpr();
+    if (!rhs) {
+      return nullptr;
+    }
+    
+    int nextOperationPrecedence = getTokenPrecedence();
+    if (tokenPrecedence < nextOperationPrecedence) {
+      rhs = parseBinaryOperationRhs(tokenPrecedence + 1, std::move(rhs));
+      if (!rhs) {
+        return nullptr;
+      }
+    }
+    
+    lhs = llvm::make_unique<BinaryExprAST>(binaryOperation, std::move(lhs), std::move(rhs));
+  }
 }
 
 static std::unique_ptr<ExprAST> parseExpression() {
