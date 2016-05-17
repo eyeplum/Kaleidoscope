@@ -260,7 +260,7 @@ static std::unique_ptr<FunctionAST> parseTopLevelExpression() {
 }
 
 
-// main func and status
+// function precedence
 
 static std::map<char, int> BinaryOperationPrecedence;
 
@@ -276,6 +276,59 @@ static int getTokenPrecedence() {
   return result;
 }
 
+
+// main loop
+
+static void handleDefinition() {
+  if (parseDefinition()) {
+    fprintf(stderr, "Parsed a function definition.\n");
+  } else {
+    getNextToken();
+  }
+}
+
+static void handleExtern() {
+  if (parseExtern()) {
+    fprintf(stderr, "Parsed an extern.\n");
+  } else {
+    getNextToken();
+  }
+}
+
+static void handleTopLevelExpression() {
+  if (parseTopLevelExpression()) {
+    fprintf(stderr, "Parsed a top level expression.\n");
+  } else {
+    getNextToken();
+  }
+}
+
+static void mainLoop() {
+  while (true) {
+    fprintf(stderr, "ready > ");
+    switch (currentToken) {
+      case tok_eof:
+        fprintf(stderr, "Goodbye.\n");
+        return;
+      case ';':
+        getNextToken();
+        break;
+      case tok_def:
+        handleDefinition();
+        break;
+      case tok_extern:
+        handleExtern();
+        break;
+      default:
+        handleTopLevelExpression();
+        break;
+    }
+  }
+}
+
+
+// main func and status
+
 int main(int argc, char *argv[]) {
   // Insert operation precedence
   BinaryOperationPrecedence['<'] = 10;
@@ -283,7 +336,12 @@ int main(int argc, char *argv[]) {
   BinaryOperationPrecedence['-'] = 20;
   BinaryOperationPrecedence['*'] = 30;
 
-  // ...
+  // print initial hint
+  fprintf(stderr, "ready > ");
+  getNextToken();
+
+  // start main loop
+  mainLoop();
   
   return 0;
 }
