@@ -76,31 +76,7 @@ public:
 
 static int currentToken;
 static int getNextToken() {
-  int result = gettok();
-  currentToken = result;
-  
-  switch(result) {
-    case tok_eof:
-      printf("%s() -> EOF\n", __FUNCTION__);
-      return 0;
-    case tok_def:
-      printf("%s() -> keyword   : define\n", __FUNCTION__);
-      break;
-    case tok_extern:
-      printf("%s() -> keyword   : extern\n", __FUNCTION__);
-      break;
-    case tok_identifier:
-      printf("%s() -> identifier: %s\n", __FUNCTION__, IdentifierStr.c_str());
-      break;
-    case tok_number:
-      printf("%s() -> number    : %lf\n", __FUNCTION__, NumVal);
-      break;
-    default:
-      printf("%s() -> unknown   : %c\n", __FUNCTION__, result);
-      break;
-  }
-
-  return result;
+  return currentToken = gettok();
 }
 
 std::unique_ptr<ExprAST> LogError(const char *errorMessage) {
@@ -294,7 +270,7 @@ static int getTokenPrecedence() {
   }
 
   int result = BinaryOperationPrecedence[currentToken];
-  if (result < 0) {
+  if (result <= 0) {
     return -1;
   }
   return result;
@@ -358,7 +334,7 @@ int main(int argc, char *argv[]) {
   BinaryOperationPrecedence['<'] = 10;
   BinaryOperationPrecedence['+'] = 20;
   BinaryOperationPrecedence['-'] = 20;
-  BinaryOperationPrecedence['*'] = 30;
+  BinaryOperationPrecedence['*'] = 40;
 
   // print initial hint
   fprintf(stderr, "ready > ");
