@@ -2,7 +2,6 @@
 #include <cctype>
 #include <cstdlib>
 
-
 std::string IdentifierStr;
 double NumVal;
 
