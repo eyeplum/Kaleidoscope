@@ -2,7 +2,6 @@
 #include <cstdio>
 #include <utility>
 #include <map>
-#include <llvm/ADT/STLExtras.h>
 
 // Helper functions
 
