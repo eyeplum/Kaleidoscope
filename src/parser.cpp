@@ -1,7 +1,6 @@
 #include "parser.h"
 #include <cstdio>
 #include <utility>
-#include <map>
 
 // Helper functions
 

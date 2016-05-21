@@ -4,8 +4,24 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <map>
 #include <llvm/ADT/STLExtras.h>
 #include <llvm/IR/Value.h>
+#include <llvm/IR/IRBuilder.h>
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/Module.h>
+#include <llvm/IR/Verifier.h>
+
+// AST Driver
+
+extern std::unique_ptr<llvm::Module> *currentModule;
+extern llvm::IRBuilder<> builder;
+extern std::map<std::string, llvm::Value *> namedValues;
+
+llvm::Value *ErrorV(const char *string);
+
+
+// AST Definitions
 
 class ExprAST {
 public:
@@ -19,6 +35,7 @@ class NumberExprAST : public ExprAST {
 
 public:
   NumberExprAST(double value) : value(value) {}
+  virtual llvm::Value *codegen();
 };
 
 
